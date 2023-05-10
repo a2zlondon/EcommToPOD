@@ -37,7 +37,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
-app.post('/api/sendtoprintify', (request, response, next) => {
+app.post('/api/sendtoprintify/:id', (request, response, next) => {
   const body = request.body
   //console.log(`RX ${JSON.stringify(body)} forwarding to printify`)
 
@@ -77,7 +77,7 @@ app.post('/api/sendtoprintify', (request, response, next) => {
 
     axios.defaults.headers.post['Authorization'] = `Bearer ${process.env.PRINTIFY_TOKEN}`;
     axios
-      .post(`https://api.printify.com/v1/shops/9144804/orders.json`, printifyBodyObject)
+      .post(`https://api.printify.com/v1/shops/${request.params.id}/orders.json`, printifyBodyObject)
       .then(response => {
         console.log(response)
       })
