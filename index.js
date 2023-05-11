@@ -4,6 +4,7 @@ var app = express();
 const {
   v1: uuidv1,
   v4: uuidv4,
+  v5: uuidv5,
 } = require('uuid');
 const axios = require('axios');
 const morgan = require('morgan')
@@ -43,38 +44,40 @@ app.post('/api/sendtoprintify/:id', (request, response, next) => {
 
   //we can have many skus per order. Can fix after we spike POC
   body.order.line_items.map(item => {
-    const id = uuidv1()
+    const id = uuidv4()
     var labelid = 0
     console.log(`item.sku ${item.sku} and id ${id}`)
     
     const printifyBodyObject = `{
       "external_id": "${id}",
       "label": "${labelid++}",
-      "line_items": [
-        {
-          "sku": "${item.sku}",
-          "quantity": 1
-        }
-      ],
+        "line_items": [
+          {
+            "product_id": "${item.product_id}",
+            "variant_id": "${item.variant_id}",
+            "quantity": "${item.quantity}"
+          }
+        ],
       "shipping_method": 1,
       "send_shipping_notification": false,
       "address_to": {
-        "first_name": "${body.order.customer.first_name}",
-        "last_name": "${body.order.customer.last_name}",
-        "email": "${body.order.email}",
-        "phone": "${body.order.phone}",
-        "country": "${body.order.country}",
-        "region": "",
-        "address1": "${body.order.shipping_address.address1}",
-        "address2": "${body.order.shipping_address.address2}",
-        "city": "${body.order.shipping_address.city}",
-        "zip": "${body.order.shipping_address.zip}"
-      }
-    }`
+      "first_name": "${body.order.customer.first_name}",
+      "last_name": "${body.order.customer.last_name}",
+      "email": "${body.order.email}",
+      "phone": "${body.order.shipping_address.phone}",
+      "country": "${body.order.shipping_address.country}",
+      "region": "",
+      "address1": "${body.order.shipping_address.address1}",
+      "address2": "${body.order.shipping_address.address2}",
+      "city": "${body.order.shipping_address.city}",
+      "zip": "${body.order.shipping_address.zip}"
+    }
+  }`
 
+    console.log(`shop id ${request.params.id}`)
+    console.log(`${printifyBodyObject}`)
 
-    
-
+    axios.defaults.headers.post['User-Agent'] = 'NodeJS'
     axios.defaults.headers.post['Authorization'] = `Bearer ${process.env.PRINTIFY_TOKEN}`;
     axios
       .post(`https://api.printify.com/v1/shops/${request.params.id}/orders.json`, printifyBodyObject)
