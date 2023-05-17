@@ -38,6 +38,26 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
+app.get('/api/printify/:id', (request, response) => {
+  axios.defaults.headers.get['User-Agent'] = 'NodeJS'
+  axios.defaults.headers.get['Authorization'] = `Bearer ${process.env.PRINTIFY_TOKEN}`;
+  axios
+    .get(`https://api.printify.com/v1/shops/${request.params.id}/products.json`)
+    .then(response => {
+      console.log(response)
+    })
+    .catch((error) => {
+      if (error.response) {
+        console.log(error.response);
+        console.log("server responded");
+      } else if (error.request) {
+        console.log("network error");
+      } else {
+        console.log(error);
+      }
+    })
+})
+
 app.post('/api/sendtoprintify/:id', (request, response, next) => {
   const body = request.body
   //console.log(`RX ${JSON.stringify(body)} forwarding to printify`)
