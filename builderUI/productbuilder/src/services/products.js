@@ -1,6 +1,6 @@
 import axios from 'axios'
-//const baseUrl = '/api/products'
-const baseUrl = 'http://localhost:3000/api/products'
+const baseUrl = '/api/products'
+//const baseUrl = 'http://localhost:3000/api/products'
 //const baseUrl = 'https://ecomm-to-pod.onrender.com/api/products'
 
 const getAll = (id) => {
