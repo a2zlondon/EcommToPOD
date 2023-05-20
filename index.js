@@ -38,25 +38,21 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
-app.get('/api/printify/:id', (request, response) => {
+app.get('/api/products/:id', (req, res) => {
   axios.defaults.headers.get['User-Agent'] = 'NodeJS'
-  axios.defaults.headers.get['Authorization'] = `Bearer ${process.env.PRINTIFY_TOKEN}`;
+  axios.defaults.headers.get['Authorization'] = `Bearer ${process.env.PRINTIFY_TOKEN}`
+
   axios
-    .get(`https://api.printify.com/v1/shops/${request.params.id}/products.json`)
+    .get(`https://api.printify.com/v1/shops/${req.params.id}/products.json`)
     .then(response => {
-      console.log(response)
+      const responseData = response.data; // Extract the data from the response object
+      res.json(responseData);
     })
-    .catch((error) => {
-      if (error.response) {
-        console.log(error.response);
-        console.log("server responded");
-      } else if (error.request) {
-        console.log("network error");
-      } else {
-        console.log(error);
-      }
-    })
-})
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
 
 app.post('/api/sendtoprintify/:id', (request, response, next) => {
   const body = request.body
@@ -132,7 +128,7 @@ app.post('/api/sendtoprintify/:id', (request, response, next) => {
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
