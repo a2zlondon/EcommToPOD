@@ -73,7 +73,7 @@ const Upload = ({ products }) => {
 
   return (
     <div>
-      <pre>{csvout}</pre>
+      <textarea name="products" value={csvout} />
     </div>
   );
 };

@@ -1,11 +1,7 @@
 
-
-
 const Products = ({ products }) => {
   return (
-
-    <div><pre>{JSON.stringify(products, null, 2) }</pre></div>
-
+    <textarea name="products" value={JSON.stringify(products, null, 2)} />
   )
 }
 

@@ -9,7 +9,8 @@ import Notification from './components/Notification'
 const App = () => {
 
   const [products, setProducts] = useState([])
-  const [newShopID, setNewShopID] = useState('9144804')
+  //const [newShopID, setNewShopID] = useState('9144804')//Dan personal shop
+  const [newShopID, setNewShopID] = useState('9289641')//VOTM shop
   const [message, setMessage] = useState({ severity: '', info: '' })
 
   
