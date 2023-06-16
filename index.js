@@ -80,8 +80,9 @@ app.post('/api/sendtoprintify/:id', (request, response, next) => {
       "label": "${labelid++}",
         "line_items": [
           {
-            "product_id": "${skutoproductandvariantimapping[item.sku].product_id}",
-            "variant_id": "${skutoproductandvariantimapping[item.sku].variant_id}",
+            //"product_id": "${skutoproductandvariantimapping[item.sku].product_id}",
+            //"variant_id": "${skutoproductandvariantimapping[item.sku].variant_id}",
+            "sku": "${item.sku}",
             "quantity": "${item.quantity}"
           }
         ],
