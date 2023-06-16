@@ -56,7 +56,7 @@ app.get('/api/products/:id', (req, res) => {
 
 app.post('/api/sendtoprintify/:id', (request, response, next) => {
   const body = request.body
-  //console.log(`RX ${JSON.stringify(body)} forwarding to printify`)
+  console.log(`RX ${JSON.stringify(body)} forwarding to printify`)
 
   const skutoproductandvariantimapping = {
     "11634838843808929611": {
