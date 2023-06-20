@@ -58,12 +58,12 @@ app.post('/api/sendtoprintify/:id', (request, response, next) => {
   const body = request.body
   console.log(`RX ${JSON.stringify(body)} forwarding to printify`)
 
-  const skutoproductandvariantimapping = {
-    "11634838843808929611": {
-      "product_id": "645bc5c274b013bc9e09f10e",
-      "variant_id": "88132"
-    }
-  }
+  //const skutoproductandvariantimapping = {
+  //   "11634838843808929611": {
+  //     "product_id": "645bc5c274b013bc9e09f10e",
+  //     "variant_id": "88132"
+  //   }
+  // }
 
   //we can have many skus per order. Can fix after we spike POC
   body.order.line_items.map(item => {
@@ -71,8 +71,8 @@ app.post('/api/sendtoprintify/:id', (request, response, next) => {
     var labelid = 0
     console.log(`item.sku ${item.sku} and id ${id}`)
     
-    console.log(`product_id = ${skutoproductandvariantimapping[item.sku].product_id}`)
-    console.log(`variant_id = ${skutoproductandvariantimapping[item.sku].variant_id}`)
+    // console.log(`product_id = ${skutoproductandvariantimapping[item.sku].product_id}`)
+    // console.log(`variant_id = ${skutoproductandvariantimapping[item.sku].variant_id}`)
 
 
     const printifyBodyObject = `{
